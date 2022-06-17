@@ -88,10 +88,9 @@ class LEFolder {
 
             inner.cert=certInfo(inner.files.cert)
 
-
             if (inner.cert.hasOwnProperty('subject')) {
                 if (Date.now()>inner.cert.expiresAt) {
-                    inner.errors.push(`CERT HAS EXPIRED`)
+                    // inner.errors.push(`CERT HAS EXPIRED`)
                     inner.expired = inner.cert.expiresAt
                 } else inner.expired = false
             }
@@ -132,12 +131,16 @@ async function start() {
         for(let row of renewals) {
             if ((argv.errors || argv.error) && row.errors.length===0) continue
             if ((argv.valids || argv.valid) && row.errors.length>0) continue
+            // --json option
             if (argv.json) {
                 console.log(row)
                 continue
             }
-            
+
             console.log(`Domains: ${chalk.yellow(row.domains.join(', '))} ${!row.expired?chalk.green('VALID'):chalk.red(`EXPIRED`)} File: ${chalk.gray(row.source)}`)
+            if (row.errors.length>0) 
+                for(let error of row.errors) 
+                    console.log(`\tERROR: ${chalk.red(error)}`)
 
         }
         // console.log(renewals)
