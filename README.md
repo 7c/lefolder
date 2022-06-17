@@ -1,5 +1,8 @@
 # LetsEncrypt Folder Tool and API
 
+## Install
+`npm i -g https://github.com/7c/lefolder`
+
 ## CLI OPTIONS
 ```
 lefolder
