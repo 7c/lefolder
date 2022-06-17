@@ -6,8 +6,8 @@
 ## CLI OPTIONS
 ```
 lefolder
-            --errors|--valids : show only the one with errors/valids
-            --json   : show output in json format
+            [--errors|--valids] : show only the one with errors/valids
+            [--json]  : show output in json format, default plain
             [<domain>[<domain2>]] : show only certain domains
 ```
 
