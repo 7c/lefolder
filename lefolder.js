@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const chalk = require('chalk')
 const argv = require('minimist')(process.argv.slice(2))
 const IniParser = require("config-ini-parser").ConfigIniParser;
