@@ -127,6 +127,7 @@ async function start() {
         if (argv._.length>0) ofDomains=argv._
         let le = new LEFolder()
         let renewals = await le.getRenewals(ofDomains)
+        let exitcode = 0
         
         for(let row of renewals) {
             if ((argv.errors || argv.error) && row.errors.length===0) continue
@@ -142,7 +143,9 @@ async function start() {
                 for(let error of row.errors) 
                     console.log(`\tERROR: ${chalk.red(error)}`)
 
+            exitcode+=row.errors.length
         }
+        process.exit(exitcode)
         // console.log(renewals)
     } catch(err) {
         console.log(err)
@@ -150,3 +153,5 @@ async function start() {
 }
 
 if (require.main===module) start()
+
+module.exports = { LEFolder }
