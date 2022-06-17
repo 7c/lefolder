@@ -149,6 +149,7 @@ async function start() {
         // console.log(renewals)
     } catch(err) {
         console.log(err)
+        process.exit(255)
     }
 }
 
