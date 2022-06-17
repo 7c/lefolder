@@ -20,6 +20,6 @@ test -e package.json && {
   sleep 1
 }
 git commit -am "$1"
-git push -u origin master
+git push -u origin main
 # export lastCommit=$(git rev-parse HEAD)
 # out "Last commit hash = $lastCommit"

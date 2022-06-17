@@ -1,6 +1,6 @@
 {
   "name": "lefolder",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "LetsEncrypt/Certbot folder API and CLI tool",
   "main": "lefolder.js",
   "bin": {
