@@ -135,8 +135,8 @@ async function start() {
         let exitcode = 0
 
         for (let row of renewals) {
-            if ((argv.errors || argv.error) && row.errors.length === 0) continue
-            if ((argv.valids || argv.valid) && row.errors.length > 0) continue
+            if ((argv.errors || argv.error) && (row.errors.length === 0 || !row.expired)) continue
+            if ((argv.valids || argv.valid) && (row.errors.length > 0 || row.expired)) continue
             // --json option
             if (argv.json) {
                 console.log(row)
