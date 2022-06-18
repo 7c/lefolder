@@ -97,18 +97,26 @@ class LEFolder {
                     } else inner.expired = false
                 }
 
-                // determine domains 
-                for (let option of parser.options('webroot_map')) {
-                    inner.domains.push(option.toLowerCase())
-                }
+
+                let authenticator = parser.get('renewalparams', 'authenticator')
+                if (authenticator === 'webroot') {
+                    // determine domains 
+                    for (let option of parser.options('webroot_map')) {
+                        inner.domains.push(option.toLowerCase())
+                    }
 
 
-                if (ofDomains && ofDomains.length > 0) {
-                    let match = false
-                    for (let d of ofDomains)
-                        if (inner.domains.includes(d.toLowerCase())) match = true
-                    if (!match) continue
+                    if (ofDomains && ofDomains.length > 0) {
+                        let match = false
+                        for (let d of ofDomains)
+                            if (inner.domains.includes(d.toLowerCase())) match = true
+                        if (!match) continue
+                    }
+                } else {
+                    console.log(`❌ Unsupported authenticator: ${chalk.yellow(authenticator)} inside ${chalk.gray(file)}, ${chalk.red('SKIPPED')}`)
+                    continue
                 }
+
 
 
                 data.push(inner)
@@ -143,8 +151,8 @@ async function start() {
                 console.log(row)
                 continue
             }
-            let expiredAgo='-'
-            if (row.expired>0) expiredAgo = Math.round((Date.now()-row.expired)/1000/24/60/60)
+            let expiredAgo = '-'
+            if (row.expired > 0) expiredAgo = Math.round((Date.now() - row.expired) / 1000 / 24 / 60 / 60)
             console.log(`Domains: ${chalk.yellow(row.domains.join(', '))} ${!row.expired ? chalk.green('VALID') : chalk.red(`EXPIRED ${expiredAgo}d AGO`)} File: ${chalk.gray(row.source)}`)
             if (row.errors.length > 0)
                 for (let error of row.errors)
