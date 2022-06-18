@@ -115,7 +115,8 @@ class LEFolder {
             }
             catch (err) {
                 console.log(chalk.red(`Error by file: ${file}`))
-                console.log(err)
+                // console.log(err)
+                throw err
             }
         }
         return data
