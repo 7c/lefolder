@@ -142,8 +142,9 @@ async function start() {
                 console.log(row)
                 continue
             }
-
-            console.log(`Domains: ${chalk.yellow(row.domains.join(', '))} ${!row.expired ? chalk.green('VALID') : chalk.red(`EXPIRED`)} File: ${chalk.gray(row.source)}`)
+            let expiredAgo='-'
+            if (row.expired>0) expiredAgo = Math.round((Date.now()-row.expired)/1000/24/60/60)
+            console.log(`Domains: ${chalk.yellow(row.domains.join(', '))} ${!row.expired ? chalk.green('VALID') : chalk.red(`EXPIRED ${expiredAgo}d AGO`)} File: ${chalk.gray(row.source)}`)
             if (row.errors.length > 0)
                 for (let error of row.errors)
                     console.log(`\tERROR: ${chalk.red(error)}`)
