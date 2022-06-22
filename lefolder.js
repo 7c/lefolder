@@ -152,7 +152,10 @@ async function start() {
                 continue
             }
             let expiredAgo = '-'
-            if (row.expired > 0) expiredAgo = Math.round((Date.now() - row.expired) / 1000 / 24 / 60 / 60)
+            if (row.expired > 0) {
+                expiredAgo = Math.round((Date.now() - row.expired) / 1000 / 24 / 60 / 60)
+                exitcode++
+            }
             console.log(`Domains: ${chalk.yellow(row.domains.join(', '))} ${!row.expired ? chalk.green('VALID') : chalk.red(`EXPIRED ${expiredAgo}d AGO`)} File: ${chalk.gray(row.source)}`)
             if (row.errors.length > 0)
                 for (let error of row.errors)
