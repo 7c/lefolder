@@ -99,6 +99,10 @@ class LEFolder {
 
 
                 let authenticator = parser.get('renewalparams', 'authenticator')
+                if (authenticator === 'manual') {
+                    // determine domains from certinfo
+                    inner.domains=inner.cert.altnames
+                } else
                 if (authenticator === 'webroot') {
                     // determine domains 
                     for (let option of parser.options('webroot_map')) {
@@ -156,7 +160,8 @@ async function start() {
                 expiredAgo = Math.round((Date.now() - row.expired) / 1000 / 24 / 60 / 60)
                 exitcode++
             }
-            console.log(`Domains: ${chalk.yellow(row.domains.join(', '))} ${!row.expired ? chalk.green('VALID') : chalk.red(`EXPIRED ${expiredAgo}d AGO`)} File: ${chalk.gray(row.source)}`)
+            let still_valid = Math.round((row.cert.expiresAt - Date.now())/1000/24/60/60)
+            console.log(`Domains: ${chalk.yellow(row.domains.join(', '))} ${!row.expired ? chalk.green(`VALID ${still_valid} days`) : chalk.red(`EXPIRED ${expiredAgo}d AGO`)} File: ${chalk.gray(row.source)}`)
             if (row.errors.length > 0)
                 for (let error of row.errors)
                     console.log(`\tERROR: ${chalk.red(error)}`)
